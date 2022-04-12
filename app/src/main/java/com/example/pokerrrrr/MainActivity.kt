@@ -12,11 +12,12 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener, GestureDetector.
     private lateinit var binding: ActivityMainBinding
     //宣告GestureDetector物件，lateinit表示延遲初始化(非null類型需要初始化，後面再進行)
     lateinit var g: GestureDetector
+    var color:String = ""
+    var number:Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_main)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -30,9 +31,18 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener, GestureDetector.
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         if (event?.action == MotionEvent.ACTION_DOWN){
             binding.txv.text = "手指按下"
+            color = ""
         }
         else if (event?.action == MotionEvent.ACTION_UP){
             binding.txv.text = "手指彈開"
+
+            if (color == ""){
+                binding.img.setImageResource(R.drawable.joker)
+            }
+            else{
+                var res:Int = getResources().getIdentifier(color + number.toString(),"drawable", getPackageName())
+                binding.img.setImageResource(res)
+            }
         }
 
         g.onTouchEvent(event)
@@ -54,7 +64,28 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener, GestureDetector.
     }
 
     override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
-        binding.txv.text = "拖曳"
+        if (e1!!.x >= e2!!.x){
+            if (e1!!.y >= e2!!.y){
+                binding.txv.text = "往左上拖曳"
+                color = "c"
+            }
+            else{
+                binding.txv.text = "往左下拖曳"
+                color = "d"
+            }
+        }
+        else{
+            if (e1!!.y >= e2!!.y){
+                binding.txv.text = "往右上拖曳"
+                color = "h"
+            }
+            else{
+                binding.txv.text = "往右下拖曳"
+                color = "s"
+            }
+        }
+
+        //binding.txv.text = "拖曳"
         return true
     }
 
