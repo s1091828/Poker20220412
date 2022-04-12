@@ -6,6 +6,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import com.example.pokerrrrr.databinding.ActivityMainBinding
+import java.lang.Math.abs
 
 class MainActivity : AppCompatActivity(), View.OnTouchListener, GestureDetector.OnGestureListener {
 
@@ -30,11 +31,11 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener, GestureDetector.
 
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         if (event?.action == MotionEvent.ACTION_DOWN){
-            binding.txv.text = "手指按下"
+            //binding.txv.text = "手指按下"
             color = ""
         }
         else if (event?.action == MotionEvent.ACTION_UP){
-            binding.txv.text = "手指彈開"
+            //binding.txv.text = "手指彈開"
 
             if (color == ""){
                 binding.img.setImageResource(R.drawable.joker)
@@ -66,26 +67,31 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener, GestureDetector.
     override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
         if (e1!!.x >= e2!!.x){
             if (e1!!.y >= e2!!.y){
-                binding.txv.text = "往左上拖曳"
+                //binding.txv.text = "往左上拖曳"
                 color = "c"
             }
             else{
-                binding.txv.text = "往左下拖曳"
+                //binding.txv.text = "往左下拖曳"
                 color = "d"
             }
         }
         else{
             if (e1!!.y >= e2!!.y){
-                binding.txv.text = "往右上拖曳"
+                //binding.txv.text = "往右上拖曳"
                 color = "h"
             }
             else{
-                binding.txv.text = "往右下拖曳"
+                //binding.txv.text = "往右下拖曳"
                 color = "s"
             }
         }
-
         //binding.txv.text = "拖曳"
+
+        // abs -> 絕對值
+        number = abs(e1!!.y.toInt() - e2!!.y.toInt())/(binding.img.height/26)+1
+        if (number>13){
+            number=13
+        }
         return true
     }
 
